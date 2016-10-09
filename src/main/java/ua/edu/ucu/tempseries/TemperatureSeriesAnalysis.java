@@ -4,7 +4,8 @@ import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
 
-    final private static double MIN_POSSIBLE_TEMPERATURE = -273.0;
+    private final static double MIN_POSSIBLE_TEMPERATURE = -273.0;
+    private final static double DIFFERENCE_BIAS = 0.00001;
 
     private double[] temperatureSeries;
     private int currentFreeElementIndex;
@@ -18,7 +19,7 @@ public class TemperatureSeriesAnalysis {
 
         for (int i = 0; i < temperatureSeriesC.length; ++i)
         {
-            if (Math.abs(this.MIN_POSSIBLE_TEMPERATURE - temperatureSeriesC[i]) < 0.00001d)
+            if (Math.abs(this.MIN_POSSIBLE_TEMPERATURE - temperatureSeriesC[i]) < this.DIFFERENCE_BIAS)
             {
                 throw new InputMismatchException();
             }
