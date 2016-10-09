@@ -170,7 +170,7 @@ public class TemperatureSeriesAnalysisTest {
         int actualReturnValue = seriesAnalysis.addTemps(-7, 30);
         assertEquals(expReturnValue, actualReturnValue);
 
-        double[] actualResult = seriesAnalysis.GetTemperatureSeries();
+        double[] actualResult = seriesAnalysis.getTemperatureSeries();
         assertArrayEquals(expResult, actualResult, 0.00001d);
     }
 

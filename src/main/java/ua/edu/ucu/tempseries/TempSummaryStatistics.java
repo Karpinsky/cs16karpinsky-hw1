@@ -2,21 +2,21 @@ package ua.edu.ucu.tempseries;
 
 public final class TempSummaryStatistics {
 
-    private final double avgTemp;
-    public double GetAverageTemperature(){ return avgTemp; }
-    private final double devTemp;
-    public double GetDeviationTemperature(){ return devTemp; }
-    private final double minTemp;
-    public double GetMinTemperature(){ return minTemp; }
-    private final double maxTemp;
-    public double GetMaxTemperature(){ return maxTemp; }
+    final private double avgTemp;
+    final private double devTemp;
+    final private double minTemp;
+    final private double maxTemp;
 
-    public TempSummaryStatistics(double avgTemp_, double devTemp_, double minTemp_, double maxTemp_)
+    public TempSummaryStatistics(double avgTempC, double devTempC, double minTempC, double maxTempC)
     {
-        this.avgTemp = avgTemp_;
-        this.devTemp = devTemp_;
-        this.minTemp = minTemp_;
-        this.maxTemp = maxTemp_;
+        this.avgTemp = avgTempC;
+        this.devTemp = devTempC;
+        this.minTemp = minTempC;
+        this.maxTemp = maxTempC;
     }
 
+    public double getAverageTemperature() { return avgTemp; }
+    public double getDeviationTemperature() { return devTemp; }
+    public double getMinTemperature() { return minTemp; }
+    public double getMaxTemperature() { return maxTemp; }
 }

@@ -4,13 +4,9 @@ import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
 
+    final private static double MIN_POSSIBLE_TEMPERATURE = -273.0;
+
     private double[] temperatureSeries;
-    public double[] GetTemperatureSeries()
-    {
-        double[] newArray = new double[this.currentFreeElementIndex];
-        System.arraycopy(this.temperatureSeries, 0, newArray, 0, this.currentFreeElementIndex);
-        return newArray;
-    }
     private int currentFreeElementIndex;
 
     public TemperatureSeriesAnalysis() {
@@ -18,18 +14,26 @@ public class TemperatureSeriesAnalysis {
         this.currentFreeElementIndex = 0;
     }
 
-    public TemperatureSeriesAnalysis(double[] temperatureSeries_) {
+    public TemperatureSeriesAnalysis(double[] temperatureSeriesC) {
 
-        for (int i = 0; i < temperatureSeries_.length; ++i)
+        for (int i = 0; i < temperatureSeriesC.length; ++i)
         {
-            if (temperatureSeries_[i] < -273)
+            if (Math.abs(this.MIN_POSSIBLE_TEMPERATURE - temperatureSeriesC[i]) < 0.00001d)
             {
                 throw new InputMismatchException();
             }
         }
 
-        this.temperatureSeries = temperatureSeries_;
+        this.temperatureSeries = new double[temperatureSeriesC.length];
+        System.arraycopy(temperatureSeriesC, 0, this.temperatureSeries, 0, temperatureSeriesC.length);
         this.currentFreeElementIndex = this.temperatureSeries.length;
+    }
+
+    public double[] getTemperatureSeries()
+    {
+        double[] newArray = new double[this.currentFreeElementIndex];
+        System.arraycopy(this.temperatureSeries, 0, newArray, 0, this.currentFreeElementIndex);
+        return newArray;
     }
 
     public double average() {
@@ -143,7 +147,7 @@ public class TemperatureSeriesAnalysis {
                 currentClosest = this.temperatureSeries[i];
                 closestDistance = currentDistance;
             }
-            else if (currentDistance == closestDistance && this.temperatureSeries[i] > 0)
+            else if (Math.abs(currentDistance - closestDistance) < 0.00001d && this.temperatureSeries[i] > 0)
             {
                 currentClosest = this.temperatureSeries[i];
             }
