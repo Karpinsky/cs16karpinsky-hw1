@@ -4,7 +4,13 @@ import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
 
-    public double[] temperatureSeries;
+    private double[] temperatureSeries;
+    public double[] GetTemperatureSeries()
+    {
+        double[] newArray = new double[this.currentFreeElementIndex];
+        System.arraycopy(this.temperatureSeries, 0, newArray, 0, this.currentFreeElementIndex);
+        return newArray;
+    }
     private int currentFreeElementIndex;
 
     public TemperatureSeriesAnalysis() {
@@ -28,33 +34,68 @@ public class TemperatureSeriesAnalysis {
 
     public double average() {
 
-        if (this.temperatureSeries.length < 1)
+        if (this.currentFreeElementIndex < 1)
         {
             throw new IllegalArgumentException();
         }
 
-        double sum = 0;
-        for (int i = 0; i < this.temperatureSeries.length; ++i)
+        return sum() / this.currentFreeElementIndex;
+    }
+
+    public double sum()
+    {
+        return sum(this.temperatureSeries, this.currentFreeElementIndex);
+    }
+
+    private double sum(double[] arr, int lengthToCount)
+    {
+        if (arr.length == 1)
         {
-            sum += this.temperatureSeries[i];
+            return arr[0];
         }
 
-        return sum / this.temperatureSeries.length;
+        double temperatureSum = 0;
+        for (int i = 0; i < lengthToCount; ++i)
+        {
+            temperatureSum += arr[i];
+        }
+
+        return temperatureSum;
     }
 
     public double deviation() {
-        return 0;
+
+        if (this.currentFreeElementIndex < 1)
+        {
+            throw new IllegalArgumentException();
+        }
+
+        double averageValue = this.average();
+        double[] deviationsFromAverageSquared = new double[this.currentFreeElementIndex];
+
+        // Less memory usage and less operations:
+        // double sum  = 0;
+        // for this.currentFreeElementIndex = sum += (this.temperatureSeries[i] - averageValue) * (this.temperatureSeries[i] - averageValue);
+        // return Math.sqrt(sum / this.currentFreeElementIndex)
+
+        for (int i = 0; i < this.currentFreeElementIndex; ++i)
+        {
+            deviationsFromAverageSquared[i] = (this.temperatureSeries[i] - averageValue) * (this.temperatureSeries[i] - averageValue);
+        }
+
+        return Math.sqrt(sum(deviationsFromAverageSquared, deviationsFromAverageSquared.length) / this.currentFreeElementIndex);
+
     }
 
     public double min() {
 
-        if (this.temperatureSeries.length < 1)
+        if (this.currentFreeElementIndex < 1)
         {
             throw new IllegalArgumentException();
         }
 
         double currentMin = this.temperatureSeries[0];
-        for (int i = 1; i < this.temperatureSeries.length; ++i)
+        for (int i = 1; i < this.currentFreeElementIndex; ++i)
         {
             if (this.temperatureSeries[i] < currentMin)
             {
@@ -66,13 +107,13 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double max() {
-        if (this.temperatureSeries.length < 1)
+        if (this.currentFreeElementIndex < 1)
         {
             throw new IllegalArgumentException();
         }
 
         double currentMax = this.temperatureSeries[0];
-        for (int i = 1; i < this.temperatureSeries.length; ++i)
+        for (int i = 1; i < this.currentFreeElementIndex; ++i)
         {
             if (this.temperatureSeries[i] > currentMax)
             {
@@ -87,14 +128,14 @@ public class TemperatureSeriesAnalysis {
 
     public double findTempClosestToValue(double tempValue) {
 
-        if (this.temperatureSeries.length < 1)
+        if (this.currentFreeElementIndex < 1)
         {
             throw new IllegalArgumentException();
         }
 
         double currentClosest = this.temperatureSeries[0];
         double closestDistance = Math.abs(tempValue - this.temperatureSeries[0]);
-        for (int i = 1; i < this.temperatureSeries.length; ++i)
+        for (int i = 1; i < this.currentFreeElementIndex; ++i)
         {
             double currentDistance = Math.abs(tempValue - this.temperatureSeries[i]);
             if (currentDistance < closestDistance)
@@ -116,7 +157,7 @@ public class TemperatureSeriesAnalysis {
         double[] temperaturesLessThanTempValue = new double[1];
         int temporaryFreeElementIndex = 0;
 
-        for (int i = 0; i < this.temperatureSeries.length; ++i)
+        for (int i = 0; i < this.currentFreeElementIndex; ++i)
         {
             if (this.temperatureSeries[i] < tempValue)
             {
@@ -143,7 +184,7 @@ public class TemperatureSeriesAnalysis {
         double[] temperaturesLessThanTempValue = new double[1];
         int currentFreeElementIndex = 0;
 
-        for (int i = 0; i < this.temperatureSeries.length; ++i)
+        for (int i = 0; i < this.currentFreeElementIndex; ++i)
         {
             if (this.temperatureSeries[i] >= tempValue)
             {
@@ -184,6 +225,6 @@ public class TemperatureSeriesAnalysis {
             this.currentFreeElementIndex++;
         }
 
-        return (int)this.average();
+        return this.currentFreeElementIndex;
     }
 }
