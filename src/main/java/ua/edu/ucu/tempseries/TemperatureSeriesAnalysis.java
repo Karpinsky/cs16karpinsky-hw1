@@ -207,7 +207,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public TempSummaryStatistics summaryStatistics() {
-        return null;
+        return new TempSummaryStatistics(this.average(), this.deviation(), this.min(), this.max());
     }
 
     public int addTemps(double... temps) {
