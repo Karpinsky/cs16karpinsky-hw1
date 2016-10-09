@@ -148,7 +148,7 @@ public class TemperatureSeriesAnalysis {
                 currentClosest = this.temperatureSeries[i];
                 closestDistance = currentDistance;
             }
-            else if (Math.abs(currentDistance - closestDistance) < 0.00001d && this.temperatureSeries[i] > 0)
+            else if (Math.abs(currentDistance - closestDistance) < this.DIFFERENCE_BIAS && this.temperatureSeries[i] > 0)
             {
                 currentClosest = this.temperatureSeries[i];
             }
