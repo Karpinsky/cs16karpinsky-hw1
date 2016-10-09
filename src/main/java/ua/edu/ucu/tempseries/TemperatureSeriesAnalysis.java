@@ -4,8 +4,8 @@ import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
 
-    private final static double MIN_POSSIBLE_TEMPERATURE = -273.0;
-    private final static double DIFFERENCE_BIAS = 0.00001;
+    private static final double MIN_POSSIBLE_TEMPERATURE = -273.0;
+    private static final double DIFFERENCE_BIAS = 0.00001;
 
     private double[] temperatureSeries;
     private int currentFreeElementIndex;
