@@ -19,7 +19,7 @@ public class TemperatureSeriesAnalysis {
 
         for (int i = 0; i < temperatureSeriesC.length; ++i)
         {
-            if (Math.abs(this.MIN_POSSIBLE_TEMPERATURE - temperatureSeriesC[i]) < this.DIFFERENCE_BIAS)
+            if (temperatureSeriesC[i] < this.MIN_POSSIBLE_TEMPERATURE)
             {
                 throw new InputMismatchException();
             }
@@ -148,7 +148,7 @@ public class TemperatureSeriesAnalysis {
                 currentClosest = this.temperatureSeries[i];
                 closestDistance = currentDistance;
             }
-            else if (Math.abs(currentDistance - closestDistance) < this.DIFFERENCE_BIAS && this.temperatureSeries[i] > 0)
+            else if (Math.abs(currentDistance - closestDistance) < this.DIFFERENCE_BIAS && this.temperatureSeries[i] >= 0)
             {
                 currentClosest = this.temperatureSeries[i];
             }

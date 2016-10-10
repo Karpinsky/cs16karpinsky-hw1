@@ -3,6 +3,8 @@ package ua.edu.ucu.tempseries;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.util.InputMismatchException;
+
 public class TemperatureSeriesAnalysisTest {
 
     @Test
@@ -172,6 +174,50 @@ public class TemperatureSeriesAnalysisTest {
 
         double[] actualResult = seriesAnalysis.getTemperatureSeries();
         assertArrayEquals(expResult, actualResult, 0.00001d);
+    }
+
+    @Test(expected = InputMismatchException.class)
+    public void testWrongConstructorData() {
+        double[] temperatureSeries = {-273.2, 11, 79};
+
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
+
+    }
+
+    @Test
+    public void testFindTempClosestToZeroOrder() {
+        double[] tempSeries = {-111, -10, 2, -2, 3, 4};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(tempSeries);
+
+        double expectedResult = 2;
+        double actualResult = seriesAnalysis.findTempClosestToZero();
+
+        assertEquals(expectedResult, actualResult, 0.001);
+    }
+
+    @Test
+    public void testFindTempClosestToValueEqualDistances() {
+        double[] tempSeries = {-25, -10, 0, 10, 25};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(tempSeries);
+
+        double expectedResult = 0;
+        double actualResult = seriesAnalysis.findTempClosestToValue(-3.4);
+
+        assertEquals(expectedResult, actualResult, 0.001);
+    }
+
+    @Test
+    public void testSummaryStatistics() {
+        double[] tempSeries = {-74, -6.3, 1.3, 12.3, 23};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(tempSeries);
+
+        TempSummaryStatistics expectedResult = new TempSummaryStatistics(-8.74, 34.104932194625455, -74, 23);
+        TempSummaryStatistics actualResult = seriesAnalysis.summaryStatistics();
+
+        assertEquals(expectedResult.getAverageTemperature(), actualResult.getAverageTemperature(), 0.001);
+        assertEquals(expectedResult.getDeviationTemperature(), actualResult.getDeviationTemperature(), 0.001);
+        assertEquals(expectedResult.getMinTemperature(), actualResult.getMinTemperature(), 0.001);
+        assertEquals(expectedResult.getMaxTemperature(), actualResult.getMaxTemperature(), 0.001);
     }
 
 }
